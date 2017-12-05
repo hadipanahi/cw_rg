@@ -15,11 +15,11 @@ import ilog.cplex.IloCplex;
 
 public class DataSource {
 
-	private final String path = "./data/clustreg_I100_L52_seed";
+	private final String path = "./data/clustreg_I200_L52_seed";
 	public final int bigM = 1000000;
-	public final int clusterNo = 2;// K
-	public final int obsByHybWeekCount = 10;
-	public final int obsByHybCount = 52 * 10;//L
+	public final int clusterNo = 3;// K
+	public final int obsByHybWeekCount = 1;
+	public final int obsByHybCount = 52 * 1;//L
 	public final int minClusterEntities = 5; //n
 	public final int independentVars = 3; // J	
 	

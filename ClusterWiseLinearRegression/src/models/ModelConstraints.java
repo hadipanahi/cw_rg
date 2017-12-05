@@ -130,6 +130,22 @@ public class ModelConstraints /*extends ModelVars*/{
 			cplex.addGe(expr, ds.minClusterEntities, consName.concat(Integer.toString(k)));
 
 		}
+		
+		
+		/// Breaking Symmetry
+		// this constraint implies sum of item indexes for a cluster with lower index should be less than the sum of item indexes for a cluster with
+		// greater cluster index
+		for(int k = 1; k < ds.clusterNo; k++){
+			String consName = "SymBreak_";
+			expr = cplex.linearNumExpr();
+			for(int i = 1; i <= ds.entitySize; i++){
+
+				expr.addTerm(i, vars.z[i - 1][k - 1]);
+				expr.addTerm(-i, vars.z[i - 1][k]);
+			}
+
+			cplex.addGe(expr, 0, consName.concat(Integer.toString(k)));
+		}
 
 
 

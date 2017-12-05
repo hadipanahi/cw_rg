@@ -46,6 +46,8 @@ public class OriginalModel {
 		this.cplex.exportModel("model.lp");
 	}
 	
-	
+	public void solve() throws IloException{
+		this.cplex.solve();
+	}
 	
 }
