@@ -7,10 +7,10 @@ import java.util.Map;
 
 import dataSource.DataSource;
 import dataSource.ObsByItem;
-import ilog.concert.IloException;
-import ilog.concert.IloLinearNumExpr;
-import ilog.concert.IloNumExpr;
-import ilog.cplex.IloCplex;
+import gurobi.GRB;
+import gurobi.GRBException;
+import gurobi.GRBLinExpr;
+import gurobi.GRBModel;
 
 public class ModelConstraints /*extends ModelVars*/{
 
@@ -21,10 +21,10 @@ public class ModelConstraints /*extends ModelVars*/{
 	//	}
 
 
-	public ModelConstraints(IloCplex cplex, DataSource ds, ModelVars vars) throws IOException, IloException {
+	public ModelConstraints(GRBModel model, DataSource ds, ModelVars vars) throws GRBException {
 
 
-		IloLinearNumExpr expr = cplex.linearNumExpr();
+		GRBLinExpr expr = new GRBLinExpr();
 
 
 		//// constraint 2
@@ -34,7 +34,7 @@ public class ModelConstraints /*extends ModelVars*/{
 					int lCounter = 1;								
 					//System.out.println("adding constraint 2");	
 					String consName = "cons2_";
-					expr = cplex.linearNumExpr();
+					expr = new GRBLinExpr();
 
 					expr.addTerm(1, vars.t[i-1][lCounter-1]);
 					expr.addTerm(-ds.bigM, vars.z[i-1][k-1]);
@@ -53,7 +53,7 @@ public class ModelConstraints /*extends ModelVars*/{
 						}
 					}
 
-					cplex.addGe(expr, -ds.bigM + l.getSales(), consName.concat(Integer.toString(i).concat("_").concat(Integer.toString(k).concat("_").
+					model.addConstr(expr, GRB.GREATER_EQUAL, -ds.bigM + l.getSales(), consName.concat(Integer.toString(i).concat("_").concat(Integer.toString(k).concat("_").
 							concat(Integer.toString(lCounter)))));	
 					lCounter++;
 				}
@@ -71,7 +71,7 @@ public class ModelConstraints /*extends ModelVars*/{
 						int lCounter = 1;								
 						//System.out.println("adding constraint 3");	
 						String consName = "cons3_";
-						expr = cplex.linearNumExpr();
+						expr = new GRBLinExpr();
 
 						expr.addTerm(1, vars.t[i-1][lCounter-1]);
 						expr.addTerm(-ds.bigM, vars.z[i-1][k-1]);
@@ -90,7 +90,7 @@ public class ModelConstraints /*extends ModelVars*/{
 							}
 						}
 
-						cplex.addGe(expr, -ds.bigM - l.getSales(), consName.concat(Integer.toString(i).concat("_").concat(Integer.toString(k).concat("_").
+						model.addConstr(expr, GRB.GREATER_EQUAL, -ds.bigM - l.getSales(), consName.concat(Integer.toString(i).concat("_").concat(Integer.toString(k).concat("_").
 								concat(Integer.toString(lCounter)))));	
 						lCounter++;
 					}
@@ -104,13 +104,13 @@ public class ModelConstraints /*extends ModelVars*/{
 		for(int i = 1; i<= ds.entitySize; i++){
 			//System.out.println("adding constraint 4");	
 			String consName = "cons4_";
-			expr = cplex.linearNumExpr();
+			expr = new GRBLinExpr();
 			for(int k = 1; k <= ds.clusterNo; k++){
 
 				expr.addTerm(1, vars.z[i - 1][k - 1]);
 			}
 
-			cplex.addEq(expr, 1, consName.concat(Integer.toString(i)));
+			model.addConstr(expr, GRB.EQUAL, 1, consName.concat(Integer.toString(i)));
 
 		}
 
@@ -121,13 +121,13 @@ public class ModelConstraints /*extends ModelVars*/{
 
 			//System.out.println("adding constraint 5");	
 			String consName = "cons5_";
-			expr = cplex.linearNumExpr();
+			expr = new GRBLinExpr();
 			for(int i = 1; i <= ds.entitySize; i++){
 
 				expr.addTerm(1, vars.z[i - 1][k - 1]);
 			}
 
-			cplex.addGe(expr, ds.minClusterEntities, consName.concat(Integer.toString(k)));
+			model.addConstr(expr, GRB.GREATER_EQUAL, ds.minClusterEntities, consName.concat(Integer.toString(k)));
 
 		}
 		
@@ -137,14 +137,14 @@ public class ModelConstraints /*extends ModelVars*/{
 		// greater cluster index
 		for(int k = 1; k < ds.clusterNo; k++){
 			String consName = "SymBreak_";
-			expr = cplex.linearNumExpr();
+			expr = new GRBLinExpr();
 			for(int i = 1; i <= ds.entitySize; i++){
 
 				expr.addTerm(i, vars.z[i - 1][k - 1]);
 				expr.addTerm(-i, vars.z[i - 1][k]);
 			}
 
-			cplex.addGe(expr, 0, consName.concat(Integer.toString(k)));
+			model.addConstr(expr, GRB.GREATER_EQUAL, 0, consName.concat(Integer.toString(k)));
 		}
 
 

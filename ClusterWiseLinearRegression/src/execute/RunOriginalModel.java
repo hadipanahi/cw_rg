@@ -5,13 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import dataSource.DataSource;
-import ilog.concert.IloException;
+import gurobi.GRBException;
 import models.OriginalModel;
 
 public class RunOriginalModel {
 
 	
-	public static void main(String[] args) throws IOException, IloException {
+	public static void main(String[] args) throws IOException, GRBException {
 		// TODO Auto-generated method stub
 		
 		     
@@ -25,7 +25,7 @@ public class RunOriginalModel {
 //		dataSource.dataReport();
 		originalModel.exportLP();
 		
-		//originalModel.solve();
+		originalModel.solve();
 		
 		
 		
