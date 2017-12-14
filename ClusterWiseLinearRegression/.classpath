@@ -2,12 +2,16 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/hadipanahi/git/clusterwiseregression/ClusterWiseLinearRegression/lib/Jama-1.0.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/hadipanahi/git/clusterwiseregression/ClusterWiseLinearRegression/lib/Jama-1.0.3.jar" sourcepath="C:/Users/hadipanahi/.sourceattacher/Jama-1.0.3.zip"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/hadipanahi/git/clusterwiseregression/ClusterWiseLinearRegression/lib/cplex.jar" sourcepath="C:/Program Files/IBM/ILOG/CPLEX_Studio_Community127/cplex/bin">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Program Files/IBM/ILOG/CPLEX_Studio_Community127/cplex/bin/x64_win64"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="C:/Users/hadipanahi/git/clusterwiseregression/ClusterWiseLinearRegression/lib/guava.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/hadipanahi/git/clusterwiseregression/ClusterWiseLinearRegression/lib/guava.jar" sourcepath="C:/Users/hadipanahi/.sourceattacher/guava-10.0.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/hadipanahi/git/clusterwiseregression/ClusterWiseLinearRegression/lib/xmlrpc-client-3.1.3.jar" sourcepath="C:/Users/hadipanahi/.sourceattacher/xmlrpc-client-3.1.3-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/hadipanahi/git/clusterwiseregression/ClusterWiseLinearRegression/lib/xmlrpc-3.0-common.jar" sourcepath="C:/Users/hadipanahi/Documents/Sources"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/hadipanahi/Documents/Sources/xmlrpc-common-3.1.3-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/hadipanahi/git/clusterwiseregression/ClusterWiseLinearRegression/lib/neos.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
