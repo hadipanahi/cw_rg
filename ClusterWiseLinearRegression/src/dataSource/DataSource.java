@@ -16,7 +16,7 @@ import ilog.cplex.IloCplex;
 public class DataSource {
 
 	private final String path = "./data/clustreg_I15_L52_seed";
-	public final int bigM = 1000000;
+	public double bigM = 0;
 	public final int clusterNo = 3;// K
 	public final int obsByHybWeekCount = 1;
 	public final int obsByHybCount = 52 * 1;//L
@@ -64,7 +64,7 @@ public class DataSource {
 
 					updateEntities(Integer.parseInt(values[0]));
 					updateWeeks(Integer.parseInt(values[1]));				
-
+					this.bigM = this.bigM + Double.parseDouble(values[2]);
 
 					///// Populating observation array list 
 					Observation o = new Observation(Integer.parseInt(values[0]), Integer.parseInt(values[1]), 
@@ -98,7 +98,8 @@ public class DataSource {
 			}
 		}
 		this.entitySize = entities.size();
-		
+		this.bigM = 30 * this.bigM / this.entitySize;
+		//this.bigM = 10000000;
 		
 	
 	}
@@ -109,6 +110,7 @@ public class DataSource {
 		System.out.println("observationsByItemByWeek: " + observationsByItemByWeek.size());
 		System.out.println("entity list size: " + entities.size());
 		System.out.println("week list size: " + weeks.size());
+		System.out.println("bigM: " + bigM);
 
 	}
 

@@ -3,6 +3,8 @@ package models;
 import java.io.IOException;
 
 import dataSource.DataSource;
+//import execute.originalModel;
+import gurobi.GRB;
 import gurobi.GRBEnv;
 import gurobi.GRBException;
 import gurobi.GRBModel;
@@ -73,6 +75,16 @@ public class OriginalModel {
 	
 	public void solve() throws GRBException{
 		this.model.optimize();;
+	}
+	
+	public void modelStatReport() throws GRBException{
+		
+		System.out.println("#########################");
+		System.out.println("# of constrainst: " + this.model.get(GRB.IntAttr.NumConstrs));
+		System.out.println("# of binaries: " + this.model.get(GRB.IntAttr.NumBinVars));
+		System.out.println("# of vars: " + this.model.get(GRB.IntAttr.NumVars));
+		
+		System.out.println("#########################");
 	}
 	
 }

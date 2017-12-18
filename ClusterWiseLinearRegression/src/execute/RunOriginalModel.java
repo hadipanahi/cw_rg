@@ -24,12 +24,14 @@ public class RunOriginalModel {
 //		dataSource.populateData();
 //		dataSource.dataReport();
 		originalModel.exportLP();
-		
+		originalModel.modelStatReport();		
 		originalModel.solve();
 		
 		
 		
 		
 	}
+	
+	
 
 }
