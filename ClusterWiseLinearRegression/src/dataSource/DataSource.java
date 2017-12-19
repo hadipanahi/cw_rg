@@ -15,7 +15,7 @@ import ilog.cplex.IloCplex;
 
 public class DataSource {
 
-	private final String path = "./data/clustreg_I15_L52_seed";
+	private String path = "./data/clustreg_I15_L52_seed";
 	public double bigM = 0;
 	public final int clusterNo = 3;// K
 	public final int obsByHybWeekCount = 1;
@@ -41,13 +41,79 @@ public class DataSource {
 	public DataSource() throws IOException{
 		populateData();
 	}
-	
+	public DataSource(String path) throws IOException{
+		populateData(path);
+	}
+
 	public void populateData() throws IOException{
 
 		for(int i = 1; i <= this.obsByHybWeekCount; i++){	
 
 			//System.out.println("-------------------------------- Observation: " + i);
 			String updatedPath = this.path.concat(Integer.toString(i).concat(".txt"));
+			BufferedReader in = new BufferedReader(new FileReader(updatedPath));
+			String line;
+			int lineNo = 1;
+			while((line = in.readLine()) != null)
+			{			
+				String[] values = line.split("\t");
+				//System.out.print("item: " + values[0]);
+				//System.out.print(" week: " + values[1]);
+				//System.out.print(" sales: " + values[2]);
+				//System.out.print(" discount: " + values[3]);
+				//System.out.println();
+
+				if(lineNo > 1){
+
+					updateEntities(Integer.parseInt(values[0]));
+					updateWeeks(Integer.parseInt(values[1]));				
+					this.bigM = this.bigM + Double.parseDouble(values[2]);
+
+					///// Populating observation array list 
+					Observation o = new Observation(Integer.parseInt(values[0]), Integer.parseInt(values[1]), 
+							Double.parseDouble(values[2]), Double.parseDouble(values[3]));
+					observations.add(o);
+
+					///// Populating observations by item
+					if(observationsByItem.containsKey(Integer.parseInt(values[0]))){
+
+						ObsByItem oi = new ObsByItem(Integer.parseInt(values[1]), 
+								Double.parseDouble(values[2]), Double.parseDouble(values[3]));
+						observationsByItem.get(Integer.parseInt(values[0])).add(oi);			
+
+					}
+					else{
+
+						observationsByItem.put(Integer.parseInt(values[0]), new ArrayList<ObsByItem>());
+						ObsByItem oi = new ObsByItem(Integer.parseInt(values[1]), 
+								Double.parseDouble(values[2]), Double.parseDouble(values[3]));
+						observationsByItem.get(Integer.parseInt(values[0])).add(oi);
+					}
+
+
+					//// Populating observations by item and week
+					ObsByItemByWeek oiw = new ObsByItemByWeek(Double.parseDouble(values[2]), 
+							Double.parseDouble(values[3]));
+					observationsByItemByWeek.put(Integer.parseInt(values[0]), Integer.parseInt(values[1]), oiw);
+				}
+				lineNo++;		
+
+			}
+		}
+		this.entitySize = entities.size();
+		this.bigM = 30 * this.bigM / this.entitySize;
+		//this.bigM = 10000000;
+		
+	
+	}
+
+	
+	public void populateData(String path) throws IOException{
+
+		for(int i = 1; i <= this.obsByHybWeekCount; i++){	
+
+			//System.out.println("-------------------------------- Observation: " + i);
+			String updatedPath = path;
 			BufferedReader in = new BufferedReader(new FileReader(updatedPath));
 			String line;
 			int lineNo = 1;
